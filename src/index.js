@@ -4,25 +4,58 @@ import App from './App';
 import './index.css';
 
 
-function formatName(user){
-  return user.first_name + ' ' + user.last_name;
+class Welcome extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date}
+  }
+
+  componentDidMount() {
+    this.timmerID = setInterval(
+      () => this.tick(),
+      1000
+    )
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timmerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
+
+  render(){
+    return (
+        <div>
+          <h1>Hello {this.props.name} </h1>
+          <h2>It is {this.state.date.toLocaleTimeString()}</h2>
+        </div>
+      );
+  }
 }
 
-const user = {
-  first_name: 'Shamith',
-  last_name: 'C'
+function tick(){
+  
+  const element = (
+    <div>
+      <Welcome name="Sara" />
+      <Welcome name="Lola" />
+      <Welcome name="Rara" />
+    </div>);
+  
+  ReactDOM.render(
+    element,
+    document.getElementById('root')
+  );
 }
 
-const element = (
-  <div>
-    <h1>Hello, {formatName(user)}!</h1>
-    <h2> How are you man ? </h2>
-  </div>
-);
+// setInterval(tick, 1000);
 
-const element_h1 = React.createElement('h1', {className: 'greetings'}, "Hello World!")
 
 ReactDOM.render(
-  element_h1,
-  document.getElementById('root')
-);
+    <Welcome name="Sara" />,
+    document.getElementById('root')
+  );
